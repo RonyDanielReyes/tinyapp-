@@ -4,20 +4,17 @@ const PORT = 8080; // default port 8080
 
 // adding the function to generate 6 random alphanumeric characters
 // function started
-function generateRandomString(length) {
+function generateRandomString() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomString = '';
 
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     randomString += characters[randomIndex];
   }
 
   return randomString;
 }
-
-const shortURL = generateRandomString(6);
-console.log(shortURL);
 // function finished
 
 app.set("view engine", "ejs");
@@ -55,7 +52,20 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-app.post("/urls", (req, res) => {
-  console.log(req.body); // Log the POST request body to the console
-  res.send("Ok"); // Respond with 'Ok' (we will replace this)
+app.get("/u/:id", (req, res) => {
+  const id = req.params.id;
+  const longURL = urlDatabase[id];
+  res.redirect(longURL);
 });
+
+app.post("/urls", (req, res) => {
+  //long
+  const longURL = req.body.longURL;
+  //generate short ID
+  const ID = generateRandomString();
+  // stick into the database
+  urlDatabase[ID] = longURL;
+  // redirect
+  res.redirect(`/urls/${ID}`);
+});
+
