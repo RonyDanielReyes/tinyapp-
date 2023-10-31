@@ -2,6 +2,24 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 
+// adding the function to generate 6 random alphanumeric characters
+// function started
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters[randomIndex];
+  }
+
+  return randomString;
+}
+
+const shortURL = generateRandomString(6);
+console.log(shortURL);
+// function finished
+
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
