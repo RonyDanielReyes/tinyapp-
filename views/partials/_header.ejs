@@ -9,7 +9,7 @@
       aria-controls="navbarNavAltMarkup"
       aria-expanded="false"
       aria-label="Toggle navigation"
-    >
+    >`
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -19,17 +19,19 @@
       </div>
     </div>
 
-    <!-- Adding first and second part of week3 d2 assigment cookies and express-->
-    <form action="/login" method="POST" class="form-inline ml-auto">
-      <% if(username) { %>
-        <span class="navbar-text mr-2">Welcome, <%= username %>!</span>
-        <button type="submit" class="btn btn-outline-light">Logout</button>
-      <% } else { %>
-        <input type="text" name="username" class="form-control mr-sm-2" placeholder="Username" required>
-        <button type="submit" class="btn btn-outline-light">Login</button>
-      <% } %>
-    </form>
-    <!-- Adding first and second part of week3 d2 assigment cookies and express-->
+<!-- Adding first and second part of week3 d2 assignment cookies and express-->
+<form action="/login" method="POST" class="form-inline ml-auto">
+  <!-- Existing code... -->
+  <% if(username) { %>
+    <span class="navbar-text mr-2">Welcome, <%= username %>!</span>
+    <button type="submit" formaction="/logout" formmethod="POST" class="btn btn-outline-light">Logout</button>
+  <% } else { %>
+    <input type="text" name="username" class="form-control mr-sm-2" placeholder="Username" required>
+    <button type="submit" class="btn btn-outline-light">Login</button>
+  <% } %>
+  <!-- Existing code... -->
+</form>
+<!-- Adding first and second part of week3 d2 assignment cookies and express-->
 
   </nav>
 </header>
