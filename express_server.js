@@ -3,34 +3,38 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 8080; // default port 8080
+const PORT = 8080; 
 
-// adding the function to generate 6 random alphanumeric characters
-// function started
 function generateRandomString() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomString = '';
-
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     randomString += characters[randomIndex];
   }
-
   return randomString;
 }
 
 const users = {
   userRandomID: {
-    id: "aa",
+    id: "userRandomID",
     email: "a@a.com",
     password: "aaa",
   },
   user2RandomID: {
-    id: "bb",
+    id: "user2RandomID",
     email: "b@b.com",
     password: "bbb",
   },
 };
+
+function getUserByEmail(email) {
+ for (const key in users) {
+  if (users[key].email === email) {
+    return users[key];
+  } 
+ }
+}
 
 app.set("view engine", "ejs");
 
@@ -58,23 +62,28 @@ app.get("/hello", (req, res) => {
 app.get("/urls", (req, res) => {
   const templateVars = { 
     urls: urlDatabase,
-    username: req.cookies["username"],  
+    user: users[req.cookies["user_id"]], 
   };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
   const templateVars = { 
-    username: req.cookies["username"], 
+    username: req.cookies["user_id"],
+    user: users[req.cookies["user_id"]],   
   };
   res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  if (!user) {
+    res.redirect("/register")
+  };
   const templateVars = { 
     id: req.params.id, 
     longURL: urlDatabase[req.params.id], 
-    username: req.cookies["username"],  // Add this line to pass the username
+    username: req.cookies["user_id"], 
   };
   res.render("urls_show", templateVars);
 });
@@ -84,8 +93,6 @@ app.get("/u/:id", (req, res) => {
   const longURL = urlDatabase[id];
   res.redirect(longURL);
 });
-
-
 
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
@@ -115,28 +122,28 @@ app.post("/urls/:id/update", (req, res) => {
   }
 });
 
-// Adding first part of week3 d2 assigment cookies and expresss
 app.post('/login', (req, res) => {
-  const { username } = req.body;
-  if (username) {
-    res.cookie('username', username);
+  const { email } = req.body;
+
+  console.log("email", req);
+  const user = getUserByEmail(email);
+
+    if (user) {
+    res.cookie('user_id', user.id);
     res.redirect('/urls');
   } else {
-    res.status(400).send('Bad Request - Please provide a username');
+    res.status(400).send('Bad Request - Invalid email or password');
   }
 });
-// Adding first part of week3 d2 assigment cookies and expresss
+
 app.post('/logout', (req, res) => {
-  res.clearCookie('username'); // Clears the username cookie
-  res.redirect('/urls'); // Redirects the user back to the /urls page
+  res.clearCookie('user_id'); 
+  res.redirect('/urls');
 });
 
-
-// ...
 app.get("/register", (req, res) => {
   res.render("register");
 });
-
 
 app.post("/register", (req, res) => {
   const email = req.body.email;
@@ -147,7 +154,6 @@ app.post("/register", (req, res) => {
     return;
   }
 
-  // Check if the email is already registered
   for (const userId in users) {
     if (users[userId].email === email) {
       res.status(400).send("Bad Request - Email already registered");
@@ -156,13 +162,11 @@ app.post("/register", (req, res) => {
   }
 
   const userID = generateRandomString();
-
   users[userID] = {
     id: userID,
     email: email,
     password: password,
   };
-
   res.cookie('user_id', userID);
   res.redirect('/urls');
 });
