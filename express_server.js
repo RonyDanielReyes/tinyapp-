@@ -19,6 +19,18 @@ function generateRandomString() {
   return randomString;
 }
 
+const users = {
+  userRandomID: {
+    id: "aa",
+    email: "a@a.com",
+    password: "aaa",
+  },
+  user2RandomID: {
+    id: "bb",
+    email: "b@b.com",
+    password: "bbb",
+  },
+};
 
 app.set("view engine", "ejs");
 
@@ -117,4 +129,40 @@ app.post('/login', (req, res) => {
 app.post('/logout', (req, res) => {
   res.clearCookie('username'); // Clears the username cookie
   res.redirect('/urls'); // Redirects the user back to the /urls page
+});
+
+
+// ...
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (!email || !password) {
+    res.status(400).send("Bad Request - Please provide an email and password");
+    return;
+  }
+
+  // Check if the email is already registered
+  for (const userId in users) {
+    if (users[userId].email === email) {
+      res.status(400).send("Bad Request - Email already registered");
+      return;
+    }
+  }
+
+  const userID = generateRandomString();
+
+  users[userID] = {
+    id: userID,
+    email: email,
+    password: password,
+  };
+
+  res.cookie('user_id', userID);
+  res.redirect('/urls');
 });
