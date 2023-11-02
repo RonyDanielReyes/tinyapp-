@@ -59,13 +59,21 @@ app.get("/u/:id", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  //long
   const longURL = req.body.longURL;
-  //generate short ID
   const ID = generateRandomString();
-  // stick into the database
   urlDatabase[ID] = longURL;
-  // redirect
   res.redirect(`/urls/${ID}`);
 });
+
+app.post("/urls/:id/delete", (req, res) => {
+  const id = req.params.id;
+// check if the ID exists in the database
+  if (urlDatabase[id]) {
+    // delete the URL
+    delete urlDatabase[id];
+    res.redirect("/urls");
+  } else {
+    res.status(404).send("URL not found");
+    }
+})
 
