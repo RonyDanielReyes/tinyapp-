@@ -19,12 +19,17 @@
       </div>
     </div>
 
-    <!-- Adding first part of week3 d2 assigment cookies and express-->
+    <!-- Adding first and second part of week3 d2 assigment cookies and express-->
     <form action="/login" method="POST" class="form-inline ml-auto">
-      <input type="text" name="username" class="form-control mr-sm-2" placeholder="Username" required>
-      <button type="submit" class="btn btn-outline-light">Login</button>
+      <% if(username) { %>
+        <span class="navbar-text mr-2">Welcome, <%= username %>!</span>
+        <button type="submit" class="btn btn-outline-light">Logout</button>
+      <% } else { %>
+        <input type="text" name="username" class="form-control mr-sm-2" placeholder="Username" required>
+        <button type="submit" class="btn btn-outline-light">Login</button>
+      <% } %>
     </form>
-    <!-- Adding first part of week3 d2 assigment cookies and express-->
+    <!-- Adding first and second part of week3 d2 assigment cookies and express-->
 
   </nav>
 </header>
