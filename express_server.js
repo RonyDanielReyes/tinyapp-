@@ -87,3 +87,16 @@ app.post("/urls/:id/update", (req, res) => {
     res.status(404).send("URL not found");
   }
 });
+
+// Adding first part of week3 d2 assigment cookies and expresss
+app.post('/login', (req, res) => {
+  const { username } = req.body;
+
+  if (username) {
+    res.cookie('username', username);
+    res.redirect('/urls');
+  } else {
+    res.status(400).send('Bad Request - Please provide a username');
+  }
+});
+// Adding first part of week3 d2 assigment cookies and expresss
