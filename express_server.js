@@ -58,6 +58,8 @@ app.get("/u/:id", (req, res) => {
   res.redirect(longURL);
 });
 
+
+
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const ID = generateRandomString();
@@ -67,9 +69,7 @@ app.post("/urls", (req, res) => {
 
 app.post("/urls/:id/delete", (req, res) => {
   const id = req.params.id;
-// check if the ID exists in the database
   if (urlDatabase[id]) {
-    // delete the URL
     delete urlDatabase[id];
     res.redirect("/urls");
   } else {
@@ -77,3 +77,13 @@ app.post("/urls/:id/delete", (req, res) => {
     }
 })
 
+app.post("/urls/:id/update", (req, res) => {
+  const id = req.params.id;
+  const newLongURL = req.body.newLongURL;
+  if (urlDatabase[id]) {
+    urlDatabase[id] = newLongURL;
+    res.redirect("/urls");
+  } else {
+    res.status(404).send("URL not found");
+  }
+});
