@@ -8,3 +8,5 @@ const emailChecker = (email, users) => {
 };
 
 module.exports = { emailChecker }
+
+//ready for submission

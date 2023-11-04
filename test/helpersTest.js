@@ -21,3 +21,5 @@ describe('emailChecker', function() {
     assert.equal(user, expectedOutput)
   });
 });
+
+//ready for submission
