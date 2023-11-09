@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -20,8 +19,6 @@
           <a href="#"></a>
           Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
         </p>
-        <!-- Add form that takes text input element and button element  -->
-        <!-- Will allow user to update the long URL associated with a given short URL. THe form submits a POST request to "/urls/:id/update"  -->
         <form method="POST" action="/urls/<%= id %>">
           <div class="form-group text-center">
             <label for="newLongURL">New URL:</label>
@@ -37,7 +34,6 @@
       </div>
       <div class="card-footer text-muted"></div>
     </div>
-    <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

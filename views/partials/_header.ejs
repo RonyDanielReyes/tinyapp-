@@ -19,11 +19,9 @@
       </div>
       <div class="ml-auto">
         <% if (!user) { %>
-          <!-- Display login and register buttons -->
           <a class="btn btn-outline-light mr-2" href="/login">Login</a>
           <a class="btn btn-outline-light" href="/register">Register</a> 
         <% } else { %> 
-          <!-- Display user's email and logout button -->
           <span>Logged in as: <%= user.email %></span>
           <form method="POST" action="/logout" style="display: inline;">
             <button type="submit" class="btn btn-success">Logout</button>
